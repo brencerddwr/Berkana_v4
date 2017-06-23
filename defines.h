@@ -34,7 +34,9 @@ unsigned long last_millis;
 unsigned long current_millis;
 byte brightness = high_intensity;
 unsigned long last_button;
-int x;
+byte chasePostiion=0;
+unsigned long lastRandomizerChange;
+unsigned long randomizerInterval = 600000L;
 
 // Kelley Pattern variables
 int F16pos = 0;

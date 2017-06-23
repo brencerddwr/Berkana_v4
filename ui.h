@@ -15,6 +15,7 @@ void ui ()
 		{
 			gCurrentTrackNumber--;
 		}
+last_button=millis ();
 	}
 	if (buttons == BUTTON_UP)
 	{
@@ -31,6 +32,7 @@ void ui ()
 		{
 			gCurrentTrackNumber++;
 		}
+last_button=millis ();
 	}
 	if (buttons == BUTTON_LEFT && setHue  && gPlaylist[gCurrentTrackNumber].mUIVariable == 1)
 	{
@@ -42,8 +44,9 @@ void ui ()
 		{
 			gPlaylist[gCurrentTrackNumber].mHue--;
 		}
+last_button=millis ();
 	}
-	if (buttons == BUTTON_LEFT && setHue  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer" == 0) && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
+	if (buttons == BUTTON_LEFT && setHue  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer") == 0 && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
 	{
 		if (gPlaylist[randomizerTrackNumber].mHue == 0)
 		{
@@ -53,6 +56,7 @@ void ui ()
 		{
 			gPlaylist[randomizerTrackNumber].mHue--;
 		}
+last_button=millis ();
 	}
 
 	if (buttons == BUTTON_RIGHT && setHue  && gPlaylist[gCurrentTrackNumber].mUIVariable == 1)
@@ -65,8 +69,9 @@ void ui ()
 		{
 			gPlaylist[gCurrentTrackNumber].mHue++;
 		}
+last_button=millis ();
 	}
-	if (buttons == BUTTON_RIGHT && setHue  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer" == 0) && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
+	if (buttons == BUTTON_RIGHT && setHue  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer") == 0 && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
 	{
 		if (gPlaylist[randomizerTrackNumber].mHue == 255)
 		{
@@ -76,9 +81,10 @@ void ui ()
 		{
 			gPlaylist[randomizerTrackNumber].mHue++;
 		}
+last_button=millis ();
 	}
 
-	if (buttons == BUTTON_LEFT && setSaturation  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer" == 0) && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
+	if (buttons == BUTTON_LEFT && setSaturation  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer") == 0 && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
 	{
 		if (gPlaylist[randomizerTrackNumber].mSaturation == 0)
 		{
@@ -88,6 +94,7 @@ void ui ()
 		{
 			gPlaylist[randomizerTrackNumber].mSaturation--;
 		}
+last_button=millis ();
 	}
 	if (buttons == BUTTON_LEFT && setSaturation  && gPlaylist[gCurrentTrackNumber].mUIVariable == 1)
 	{
@@ -99,8 +106,9 @@ void ui ()
 		{
 			gPlaylist[gCurrentTrackNumber].mSaturation--;
 		}
+last_button=millis ();
 	}
-	if (buttons == BUTTON_RIGHT && setSaturation  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer" == 0) && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
+	if (buttons == BUTTON_RIGHT && setSaturation  && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer") == 0 && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
 	{
 		if (gPlaylist[randomizerTrackNumber].mSaturation == 255)
 		{
@@ -110,6 +118,7 @@ void ui ()
 		{
 			gPlaylist[randomizerTrackNumber].mSaturation++;
 		}
+last_button=millis ();
 	}
 
 	if (buttons == BUTTON_RIGHT && setSaturation  && gPlaylist[gCurrentTrackNumber].mUIVariable == 1)
@@ -122,6 +131,7 @@ void ui ()
 		{
 			gPlaylist[gCurrentTrackNumber].mSaturation++;
 		}
+last_button=millis ();
 	}
 	if (buttons == BUTTON_SELECT  && gPlaylist[gCurrentTrackNumber].mUIVariable == 1)
 	{
@@ -129,12 +139,14 @@ void ui ()
 		delay(100);
 		setHue=!setHue;
 		setSaturation=!setSaturation;
+last_button=millis ();
 	}
-	if (buttons == BUTTON_SELECT && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer" == 0) && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
+	if (buttons == BUTTON_SELECT && strcmp(gPlaylist[gCurrentTrackNumber].mName,"Randomizer") == 0 && gPlaylist[randomizerTrackNumber].mUIVariable == 1)
 	{
 		showAnalogRGB(0x000000);
 		delay(100);
 		setHue=!setHue;
 		setSaturation=!setSaturation;
+last_button=millis ();
 	}
 }

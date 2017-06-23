@@ -25,7 +25,7 @@ unsigned long seedOut(unsigned int noOfBits)
 {
 	// return value with 'noOfBits' random bits set
 	unsigned long seed=0;
-	for (int i=0;i<noOfBits;++i)
+	for (unsigned int i=0;i<noOfBits;++i)
 	seed = (seed<<1) | bitOut();
 	return seed;
 }

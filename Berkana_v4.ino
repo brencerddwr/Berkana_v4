@@ -74,6 +74,7 @@ void randomizer();
 #include <Adafruit_MCP23017.h>
 #include <Adafruit_RGBLCDShield.h>
 #include <FastLED.h>
+#include <ApplicationMonitor.h>
 
 #include "defines.h"
 #include "showAnalogRGB.h"
@@ -88,20 +89,26 @@ void randomizer();
 #include "randomizer.h"
 #include "seedOut.h"
 
+Watchdog::CApplicationMonitor ApplicationMonitor;
+
+
 void setup()
 {
-//	while(!Serial);
-// 	Serial.begin(115200);
+
+	//	while(!Serial);
+	Serial.begin(115200);
+	Serial.println(F("Booting...."));
+	ApplicationMonitor.Dump(Serial);
+	ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_4s);
 	unsigned long seed=seedOut(31);
-// 	Serial.println(seed);
 	randomSeed(seed);
 	do
 	{
 		randomizerTrackNumber = random(0,(ARRAY_SIZE(gPlaylist)));
-// 		Serial.println(randomizerTrackNumber);
+		// 		Serial.println(randomizerTrackNumber);
 	} while (strcmp(gPlaylist[randomizerTrackNumber].mName , "Randomizer")==0);
 
-	for (int i = 0; i < ((ARRAY_SIZE(gPlaylist))); i++)
+	for (unsigned int i = 0; i < ((ARRAY_SIZE(gPlaylist))); i++)
 	{
 		if (strcmp(gPlaylist[i].mName , "Randomizer") == 0)
 		{
@@ -114,9 +121,11 @@ void setup()
 	lcd.setBacklight(RED);
 	lcd.print("Booting");
 	build_logical_arrays(logical_array_one_start);
+	ApplicationMonitor.IAmAlive();
 
 	// sanity check delay - allows reprogramming if accidently blowing power w/leds
 	delay(3000);
+	ApplicationMonitor.IAmAlive();
 
 
 	// Change this line as needed to match the LED string type, control chip and color sequence
@@ -144,9 +153,11 @@ void setup()
 	// 	lcd.setCursor(0,1);
 	// 	lcd.print(gPlaylist[gCurrentTrackNumber].mName);
 	// 	lcd.setBacklight(gPlaylist[gCurrentTrackNumber].mLcdColor);
+	ApplicationMonitor.IAmAlive();
 	display ();
 	last_button=millis();
 	last_millis=millis();
+	lastRandomizerChange=millis();
 
 
 }
@@ -154,6 +165,7 @@ void setup()
 void loop()
 {
 	// read the analog in value: and adjust brightness
+	ApplicationMonitor.IAmAlive();
 	sensorValue = analogRead(analogInPin);
 	brightness = constrain(map(sensorValue, 0, 1023, 80, 255),80,255);
 	if (high_intensity != brightness)
@@ -168,21 +180,22 @@ void loop()
 		{
 			switch(gPlaylist[randomizerTrackNumber].mColorCycle)
 			{
-				
+
 				case 0:
 				break;
-				
+
 				case 1:
 				gPlaylist[randomizerTrackNumber].mHue--;
 				break;
-				
+
 				case 2:
 				gPlaylist[randomizerTrackNumber].mHue++;
 				break;
-				
+
 			}
 			gPlaylist[randomizerTrackNumber].mPattern ();
 			showAnalogRGB( CHSV(gPlaylist[randomizerTrackNumber].mHue,gPlaylist[randomizerTrackNumber].mSaturation,brightness));
+			ApplicationMonitor.SetData(randomizerTrackNumber);
 		}
 
 	}
@@ -192,18 +205,18 @@ void loop()
 		{
 			switch(gPlaylist[gCurrentTrackNumber].mColorCycle)
 			{
-				
+
 				case 0:
 				break;
-				
+
 				case 1:
 				gPlaylist[gCurrentTrackNumber].mHue--;
 				break;
-				
+
 				case 2:
 				gPlaylist[gCurrentTrackNumber].mHue++;
 				break;
-				
+
 			}
 			gPlaylist[gCurrentTrackNumber].mPattern ();
 			showAnalogRGB( CHSV(gPlaylist[gCurrentTrackNumber].mHue,gPlaylist[gCurrentTrackNumber].mSaturation,brightness));
@@ -217,9 +230,15 @@ void loop()
 		ui ();
 		display ();
 	}
-	EVERY_N_MINUTES (10)
+	if (millis() - lastRandomizerChange > randomizerInterval)
 	{
 		randomizer();
+		Serial.print(F("10 Minute Loop. Seconds running: "));
+		Serial.println(millis()/1000L);
+		//		Serial.println(Uptime);
+		lastRandomizerChange=millis();
+		ApplicationMonitor.Dump(Serial);
 	}
 
 }
+
