@@ -19,7 +19,7 @@ void kelley_pattern_new()
 	// draw the Fractional Bar, length=4px
 	if (strcmp(gPlaylist[gCurrentTrackNumber].mName , "Randomizer") == 0)
 	{
-		drawFractionalBar( F16pos, Width, gPlaylist[randomizerTrackNumber].mHue, gPlaylist[gCurrentTrackNumber].mSaturation);
+		drawFractionalBar( F16pos, Width, gPlaylist[randomizerTrackNumber].mHue, gPlaylist[randomizerTrackNumber].mSaturation);
 	}
 	else
 	{
