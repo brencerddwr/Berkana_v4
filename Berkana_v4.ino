@@ -71,7 +71,7 @@ void randomizer();
 
 #include <avr/pgmspace.h>
 #include <Wire.h>
-#include <Adafruit_MCP23017.h>
+//#include <Adafruit_MCP23017.h>
 #include <Adafruit_RGBLCDShield.h>
 #include <FastLED.h>
 #include <ApplicationMonitor.h>
